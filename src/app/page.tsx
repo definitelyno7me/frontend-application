@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -12,6 +13,7 @@ const schema = yup.object().shape({
     .string()
     .url("Invalid URL")
     .required("LinkedIn / Personal Website URL is required"),
+  resume: yup.mixed().required("Resume is required"),
   visas: yup.array().min(1, "Select at least one visa type"),
   additionalInfo: yup.string(),
 });
@@ -21,6 +23,7 @@ type FormType = {
   lastName?: string;
   email?: string;
   linkedIn?: string;
+  resume?: unknown;
   visas?: string[];
   additionalInfo?: string;
 };
@@ -34,12 +37,26 @@ export default function Home() {
     resolver: yupResolver(schema),
   });
 
+  const [submitted, setSubmitted] = useState(true);
+
   const onSubmit = (data: FormType) => {
     //TODO: Do something here
     console.log(data);
   };
 
-  return (
+  return submitted ? (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+      <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg ">
+        <h2 className="text-2xl font-bold">Thank You!</h2>
+        <p className="my-4">
+          Your information was submitted to our team of immigration attorneys
+        </p>
+        <button className="btn" onClick={() => setSubmitted(false)}>
+          Go Back to Homepage
+        </button>
+      </div>
+    </div>
+  ) : (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -72,6 +89,9 @@ export default function Home() {
           className="input"
         />
         <p className="text-red-500">{errors.linkedIn?.message}</p>
+
+        {/* <input type="file" {...register("resume")} />
+        <p className="text-red-500">{errors.resume?.message}</p> */}
 
         <h2 className="text-xl font-bold mt-4 mb-4 text-center">
           Visa categories of interest?
