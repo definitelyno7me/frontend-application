@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Installation
 
-## Getting Started
-
-First, run the development server:
+1. Clone the repository:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/definitelyno7me/frontend-application.git
+cd frontend-application
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+yarn install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Running Locally
 
-## Learn More
+1.  Start the development server:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+yarn dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This will start the application at[http://localhost:3000](http://localhost:3000)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. Access the Public Lead Submission Form:
+   The public lead form can be accessed on the homepage at [http://localhost:3000](http://localhost:3000)
 
-## Deploy on Vercel
+## Design Overview
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Frontend Technology Stack
+• Next.js: For the frontend framework, including server-side rendering (SSR) and routing.
+• React Hook Form: Used for handling form validation and submission.
+• Yup: Schema-based validation for the form fields.
+• Tailwind CSS: For utility-first styling and responsive design.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Authentication
+
+A mock authentication system is used to protect the internal lead management UI. It allows only authenticated users to access the /admin page.
+
+File Structure
+• src/app: Contains the main application components, including the lead form and lead management UI.
+• src/app/api: Contains API routes for managing leads.
+• src/components: Common components used across the app, such as the lead form.
+• public/assets: Static assets, including images/icons used in the form.
+
+## Design Overview
+
+To view the internal lead management interface, navigate to the /admin route:
+• Admin Interface URL: [http://localhost:3000/admin](http://localhost:3000/admin)
+
+This page is secured with a mock authentication system. Only authenticated users can access it.
+• Login: Currently, a mock login system is implemented with NextAuth.js.
+• Lead Management: The interface allows internal users to view submitted leads, and the status of each lead can be changed manually (e.g., from PENDING to REACHED_OUT).
