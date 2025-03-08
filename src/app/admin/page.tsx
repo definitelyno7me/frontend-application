@@ -1,27 +1,31 @@
 "use client";
 
-const sampleLeads = [
-  {
-    name: "Jorge Ruiz",
-    submitted: "02/02/2024, 2:45 PM",
-    status: "Pending",
-    country: "Mexico",
-  },
-  {
-    name: "Bahar Zamir",
-    submitted: "02/02/2024, 2:45 PM",
-    status: "Pending",
-    country: "Mexico",
-  },
-  {
-    name: "Anand Jain",
-    submitted: "02/02/2024, 2:45 PM",
-    status: "Reached Out",
-    country: "Mexico",
-  },
-];
+import { LeadType } from "@/types/lead";
+import { useState, useEffect } from "react";
 
 export default function LeadsPage() {
+  const [leads, setLeads] = useState<LeadType[]>([]);
+
+  useEffect(() => {
+    fetch("/api/leads")
+      .then((res) => res.json())
+      .then((data) => setLeads(data));
+  }, []);
+
+  const updateStatus = async (id: string) => {
+    await fetch(`/api/leads/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "REACHED_OUT" }),
+    });
+
+    setLeads((prev) =>
+      prev.map((lead) =>
+        lead.id === id ? { ...lead, status: "REACHED_OUT" } : lead
+      )
+    );
+  };
+
   return (
     <div className="p-8">
       <h1 className="text-2xl font-bold">Leads</h1>
@@ -29,22 +33,34 @@ export default function LeadsPage() {
         <thead>
           <tr className="border-b">
             <th className="p-2 text-left">Name</th>
-            <th className="p-2 text-left">Submitted</th>
+            <th className="p-2 text-left">Email</th>
             <th className="p-2 text-left">Status</th>
-            <th className="p-2 text-left">Country</th>
-            <th className="p-2 text-left">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {sampleLeads.map((lead, index) => (
-            <tr key={index} className="border-b">
-              <td className="p-2">{lead.name}</td>
-              <td className="p-2">{lead.submitted}</td>
-              <td className="p-2">{lead.status}</td>
-              <td className="p-2">{lead.country}</td>
+          {leads.map((lead) => (
+            <tr key={lead.id} className="border-b">
               <td className="p-2">
-                {lead.status === "Pending" && (
-                  <button className="btn">Mark as Reached Out</button>
+                {lead.firstName} {lead.lastName}
+              </td>
+              <td className="p-2">{lead.email}</td>
+              <td className="p-2 flex gap-2 items-center">
+                <span
+                  className={`${
+                    lead.status === "PENDING"
+                      ? "text-red-500"
+                      : "text-green-500"
+                  }`}
+                >
+                  {lead.status}
+                </span>
+                {lead.status === "PENDING" && (
+                  <button
+                    onClick={() => updateStatus(lead.id)}
+                    className="px-4 py-2 bg-black text-white rounded-md"
+                  >
+                    Mark as Reached Out
+                  </button>
                 )}
               </td>
             </tr>

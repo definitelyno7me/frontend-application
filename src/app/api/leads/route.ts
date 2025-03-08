@@ -1,14 +1,7 @@
+import { LeadType } from "@/types/lead";
 import { NextRequest, NextResponse } from "next/server";
 
-const leads = [
-  {
-    id: 1,
-    firstName: "Jorge",
-    lastName: "Ruiz",
-    email: "jorge.ruix@example.com",
-    status: "PENDING",
-  },
-];
+const leads: LeadType[] = [];
 
 export async function GET() {
   return NextResponse.json(leads);

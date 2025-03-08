@@ -2,6 +2,10 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { FormType } from "@/types/form";
+import chatIcon from "@/app/assets/chat.png";
+import clipboardIcon from "@/app/assets/clipboard.png";
+import helpIcon from "@/app/assets/help.png";
+import Image from "next/image";
 
 const schema = yup.object().shape({
   firstName: yup.string().required("First Name is required"),
@@ -48,13 +52,21 @@ export default function LeadForm({ onSubmitted }: Props) {
   return (
     <div className="flex flex-col space-y-8">
       <div className="h-56 bg-lime-200 flex items-center justify-center">
-        <h1 className="text-3xl font-bold p-4">
+        <h1 className="text-3xl font-bold p-6">
           Get An Assessment of Your Immigration Case
         </h1>
       </div>
       <div className="flex justify-center">
         <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md p-6">
-          <h2 className="text-xl font-bold mb-4 text-center">
+          <div className="flex justify-center mt-8">
+            <Image
+              src={clipboardIcon}
+              alt="Clipboard Icon"
+              width={48}
+              height={48}
+            />
+          </div>
+          <h2 className="text-xl font-bold mt-2 mb-4 text-center">
             What to understand your visa options?
           </h2>
           <h3 className="text-sm font-bold mb-4 text-center">
@@ -90,7 +102,10 @@ export default function LeadForm({ onSubmitted }: Props) {
           <input type="file" {...register("resume")} className="input" />
           <p className="text-red-500">{errors.resume?.message}</p>
 
-          <h2 className="text-xl font-bold mt-4 mb-4 text-center">
+          <div className="flex justify-center mt-8">
+            <Image src={chatIcon} alt="Chat Icon" width={48} height={48} />
+          </div>
+          <h2 className="text-xl font-bold mt-2 mb-4 text-center">
             Visa categories of interest?
           </h2>
           <div className="space-y-2">
@@ -117,10 +132,12 @@ export default function LeadForm({ onSubmitted }: Props) {
           </div>
           <p className="text-red-500">{errors.visas?.message}</p>
 
-          <h2 className="text-xl font-bold mt-4 mb-4 text-center">
+          <div className="flex justify-center mt-8">
+            <Image src={helpIcon} alt="Help Icon" width={48} height={48} />
+          </div>
+          <h2 className="text-xl font-bold mt-2 mb-4 text-center">
             How can we help you?
           </h2>
-
           <textarea
             {...register("additionalInfo")}
             placeholder="What is your current status and when does it expire?"
