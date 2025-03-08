@@ -13,3 +13,15 @@ export async function POST(request: NextRequest) {
   leads.push(newLead);
   return NextResponse.json(newLead, { status: 201 });
 }
+
+export async function PUT(request: NextRequest) {
+  const { id, status } = await request.json();
+
+  const leadIndex = leads.findIndex((lead) => lead.id === id);
+  if (leadIndex === -1) {
+    return NextResponse.json({ message: "Lead not found" }, { status: 404 });
+  }
+
+  leads[leadIndex].status = status;
+  return NextResponse.json(leads[leadIndex]);
+}
